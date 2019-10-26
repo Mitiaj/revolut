@@ -1,0 +1,31 @@
+{
+    "name": "mitiaj/revolut-api",
+    "type": "library",
+    "license": "MIT",
+    "description": "Revolut API guzzle wrapper",
+    "authors": [
+        {
+            "name": "Steve",
+            "email": "michal@cnvrsn.team"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mitiaj\\RevolutApi\\": "src/",
+            "Mitiaj\\RevolutApi\\Test\\": "tests"
+        }
+    },
+    "require": {
+        "php": ">=7.2",
+        "ext-json": "*",
+        "ext-http": "*",
+        "adhocore/jwt": "^0.1.0",
+        "psr/http-client": "^1.0",
+        "psr/http-message": "^1.0",
+        "nesbot/carbon": "^2.25",
+        "guzzlehttp/psr7": "^1.6"
+    },
+    "suggest": {
+        "php-http/guzzle6-adapter": "As option for http client"
+    }
+}
