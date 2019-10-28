@@ -65,7 +65,7 @@ class ApiClient implements ApiClientInterface
                 $accounts[] = new Account($object);
             }
 
-            return$accounts;
+            return $accounts;
         });
     }
 
@@ -92,7 +92,7 @@ class ApiClient implements ApiClientInterface
             return new Passport(
                 $body['access_token'],
                 $body['token_type'],
-                $body['refresh_token'],
+                $passport->refreshToken(),
                 Carbon::now()->addSeconds($body['expires_in'])
             );
         });
@@ -104,16 +104,22 @@ class ApiClient implements ApiClientInterface
             return $call();
 
         } catch (HttpExceptionInterface $ex) {
-            if ($ex instanceof HttpResponseException) {
-                throw $this->mapException($ex);
-            }
-
-            throw $ex;
+            throw $this->mapException($ex);
         }
     }
 
     private function mapException(HttpResponseException $exception): ApiException
     {
+        if ($exception->getResponse()->getStatusCode() === 401) {
+            return new AuthorizationException(
+                $exception->getRequest(),
+                $exception->getResponse(),
+                'Unauthorized',
+                401,
+                $exception
+            );
+        }
+
         $body = $this->toJson($exception->getResponse());
         if (!isset($body['error']) && !isset($body['error_description'])) {
             return new ApiException(
@@ -126,7 +132,7 @@ class ApiClient implements ApiClientInterface
         }
 
         if ($body['error'] == 'unauthorized_client') {
-            return new AuthException(
+            return new AuthenticationException(
                 $exception->getRequest(),
                 $exception->getResponse(),
                 $body['error_description'],

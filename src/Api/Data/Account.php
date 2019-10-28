@@ -5,7 +5,7 @@ namespace Mitiaj\RevolutApi\Api\Data;
 
 use Carbon\Carbon;
 
-class Account
+class Account implements \JsonSerializable
 {
     /**
      * @var string
@@ -124,5 +124,19 @@ class Account
     public function updatedAt(): \DateTime
     {
         return $this->updatedAt;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'balance' => $this->balance,
+            'currency' => $this->currency,
+            'state' => $this->state,
+            'public' => $this->public,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt
+        ];
     }
 }

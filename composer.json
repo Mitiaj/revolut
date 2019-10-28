@@ -18,7 +18,6 @@
     "require": {
         "php": ">=7.2",
         "ext-json": "*",
-        "ext-http": "*",
         "adhocore/jwt": "^0.1.0",
         "psr/http-client": "^1.0",
         "psr/http-message": "^1.0",
